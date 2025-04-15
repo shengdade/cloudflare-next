@@ -1,0 +1,20 @@
+# Build outputs
+.next/
+.open-next/
+.wrangler/
+
+# Dependencies
+node_modules/
+
+# Lock files
+pnpm-lock.yaml
+
+# Auto-generated type files
+cloudflare-env.d.ts
+next-env.d.ts
+
+# Local environment variables
+.dev.vars
+
+# Drizzle migrations
+src/db/migrations/

@@ -27,6 +27,14 @@
    * databases, object storage, AI inference, real-time communication and more.
    * https://developers.cloudflare.com/workers/runtime-apis/bindings/
    */
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "cloudflare-next",
+      "database_id": "19c4f070-a402-486e-ab8b-fb5feed1d6ae",
+      "migrations_dir": "src/db/migrations",
+    },
+  ],
 
   /**
    * Environment Variables
