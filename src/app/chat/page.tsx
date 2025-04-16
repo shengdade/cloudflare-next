@@ -13,10 +13,10 @@ import { useChat, type Message } from "@ai-sdk/react"
 import { useEffect, useRef, useState } from "react"
 
 const MODELS = [
-  { value: "o3-mini", label: "o3-mini" },
-  { value: "gpt-4o", label: "gpt-4o" },
   { value: "gpt-4o-mini", label: "gpt-4o-mini" },
+  { value: "gpt-4o", label: "gpt-4o" },
   { value: "gpt-4-turbo", label: "gpt-4-turbo" },
+  { value: "o3-mini", label: "o3-mini" },
   { value: "o1", label: "o1" },
 ]
 
