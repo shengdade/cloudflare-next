@@ -10,10 +10,13 @@ export async function POST(req: Request) {
     baseURL: `https://gateway.ai.cloudflare.com/v1/c5b793f894444f1cc7aaac929176106d/dade-ca/openai`,
   })
 
-  const { messages } = (await req.json()) as { messages: Message[] }
+  const { messages, model } = (await req.json()) as {
+    messages: Message[]
+    model: string
+  }
 
   const result = streamText({
-    model: openai("gpt-4o-mini"),
+    model: openai(model),
     messages,
   })
 

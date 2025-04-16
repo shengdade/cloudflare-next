@@ -2,12 +2,32 @@
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { useChat, type Message } from "@ai-sdk/react"
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
+
+const MODELS = [
+  { value: "o3-mini", label: "o3-mini" },
+  { value: "gpt-4o", label: "gpt-4o" },
+  { value: "gpt-4o-mini", label: "gpt-4o-mini" },
+  { value: "gpt-4-turbo", label: "gpt-4-turbo" },
+  { value: "o1", label: "o1" },
+]
 
 export default function Home() {
+  const [selectedModel, setSelectedModel] = useState(MODELS[0].value)
   const { messages, input, handleInputChange, handleSubmit, isLoading } =
-    useChat()
+    useChat({
+      body: {
+        model: selectedModel,
+      },
+    })
   const messagesContainerRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -29,6 +49,23 @@ export default function Home() {
   return (
     <div className="flex min-h-dvh flex-col items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 p-4 dark:from-slate-900 dark:to-slate-950">
       <div className="flex h-[85vh] w-full max-w-3xl flex-col rounded-lg border border-slate-200 bg-white shadow-2xl dark:border-slate-700 dark:bg-slate-900">
+        <div className="flex items-center justify-between border-b border-slate-200 p-4 dark:border-slate-700">
+          <h1 className="text-lg font-semibold text-slate-800 dark:text-slate-100">
+            AI Chat
+          </h1>
+          <Select value={selectedModel} onValueChange={setSelectedModel}>
+            <SelectTrigger className="w-[180px] rounded-full">
+              <SelectValue placeholder="Select model" />
+            </SelectTrigger>
+            <SelectContent>
+              {MODELS.map((model) => (
+                <SelectItem key={model.value} value={model.value}>
+                  {model.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
         <div
           ref={messagesContainerRef}
           className="flex-1 space-y-4 overflow-y-auto p-6"
