@@ -9,13 +9,17 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
+import { authClient } from "@/lib/auth-client"
+import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { toast } from "sonner"
 import { useServerAction } from "zsa-react"
 import { createUserAction } from "./actions"
 
 export default function Home() {
+  const router = useRouter()
   const [name, setName] = useState("")
+  const [isSigningOut, setIsSigningOut] = useState(false)
   const {
     isPending,
     execute,
@@ -32,6 +36,18 @@ export default function Home() {
       return
     }
     toast.success(`User created: ${data.name}`)
+  }
+
+  const handleSignOut = async () => {
+    try {
+      setIsSigningOut(true)
+      await authClient.signOut()
+      router.refresh()
+    } catch (error) {
+      console.error("Error signing out:", error)
+    } finally {
+      setIsSigningOut(false)
+    }
   }
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -60,6 +76,9 @@ export default function Home() {
           />
           <Button onClick={handleCreateUser} disabled={isPending || !name}>
             {isPending ? "Creating..." : "Create User"}
+          </Button>
+          <Button variant="outline" onClick={handleSignOut}>
+            {isSigningOut ? "Signing out..." : "Sign out"}
           </Button>
           {isPending && (
             <div className="text-muted-foreground text-center text-sm">
