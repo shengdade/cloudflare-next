@@ -22,7 +22,6 @@ import { authClient } from "@/lib/auth-client"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Loader2 } from "lucide-react"
 import Link from "next/link"
-import { useSearchParams } from "next/navigation"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
@@ -41,8 +40,6 @@ export function SignInForm() {
   const [isEmailLoading, setIsEmailLoading] = useState(false)
   const [isForgotPasswordModalOpen, setIsForgotPasswordModalOpen] =
     useState(false)
-  const searchParams = useSearchParams()
-  const callbackUrl = searchParams.get("redirect") || "/"
 
   const form = useForm<z.infer<typeof signInSchema>>({
     resolver: zodResolver(signInSchema),
@@ -63,7 +60,7 @@ export function SignInForm() {
     const { email, password } = values
 
     await authClient.signIn.email(
-      { email, password, callbackURL: callbackUrl },
+      { email, password, callbackURL: "/" },
       {
         onRequest: () => setIsEmailLoading(true),
         onSuccess: () => {

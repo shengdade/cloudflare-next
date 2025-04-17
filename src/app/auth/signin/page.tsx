@@ -6,7 +6,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { Suspense } from "react"
 
 export default function SignInPage() {
   return (
@@ -19,9 +18,7 @@ export default function SignInPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Suspense fallback={<div>Loading...</div>}>
-            <SignInForm />
-          </Suspense>
+          <SignInForm />
         </CardContent>
       </Card>
     </div>

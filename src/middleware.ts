@@ -6,11 +6,7 @@ export async function middleware(request: NextRequest) {
   const sessionCookie = getSessionCookie(request)
 
   if (!sessionCookie) {
-    const callbackUrl = request.nextUrl.pathname
-    const signinUrl = new URL("/auth/signin", request.url)
-    signinUrl.searchParams.set("redirect", callbackUrl)
-
-    return NextResponse.redirect(signinUrl)
+    return NextResponse.redirect(new URL("/auth/signin", request.url))
   }
 
   return NextResponse.next()
