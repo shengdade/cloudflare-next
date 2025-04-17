@@ -1,5 +1,7 @@
+import { auth } from "@/lib/auth"
 import { createOpenAI } from "@ai-sdk/openai"
 import { Message, streamText } from "ai"
+import { headers } from "next/headers"
 
 const openai = createOpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -7,6 +9,14 @@ const openai = createOpenAI({
 })
 
 export async function POST(req: Request) {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  })
+
+  if (!session) {
+    return new Response("Unauthorized", { status: 401 })
+  }
+
   const { messages, model } = (await req.json()) as {
     messages: Message[]
     model: string
