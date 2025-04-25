@@ -16,7 +16,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Cloudflare Next",
-  description: "Cloudflare Next",
+  description:
+    "A platform for building and deploying web applications using Cloudflare's Edge Network",
 }
 
 export default function RootLayout({
