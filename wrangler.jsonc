@@ -42,6 +42,7 @@
    */
   "vars": {
     "BETTER_AUTH_URL": "https://cloudflare-next.hackerdade.workers.dev",
+    "NEXT_PUBLIC_POSTHOG_KEY": "phc_W2ZbkAKw4JOCArzV10D8NruMV4VrUqev4FtNyZP25AQ",
   },
   /**
    * Note: Use secrets to store sensitive data.
