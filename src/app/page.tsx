@@ -11,6 +11,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { authClient } from "@/lib/auth-client"
 import { useRouter } from "next/navigation"
+import { usePostHog } from "posthog-js/react"
 import { useState } from "react"
 import { toast } from "sonner"
 import { useServerAction } from "zsa-react"
@@ -18,6 +19,7 @@ import { createUserAction } from "./actions"
 
 export default function Home() {
   const router = useRouter()
+  const posthog = usePostHog()
   const [name, setName] = useState("")
   const [isSigningOut, setIsSigningOut] = useState(false)
   const {
@@ -42,6 +44,7 @@ export default function Home() {
     try {
       setIsSigningOut(true)
       await authClient.signOut()
+      posthog.reset()
       router.refresh()
     } catch (error) {
       console.error("Error signing out:", error)

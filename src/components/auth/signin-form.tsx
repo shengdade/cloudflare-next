@@ -22,6 +22,7 @@ import { authClient } from "@/lib/auth-client"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Loader2 } from "lucide-react"
 import Link from "next/link"
+import { usePostHog } from "posthog-js/react"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
@@ -37,6 +38,7 @@ const forgotPasswordSchema = z.object({
 })
 
 export function SignInForm() {
+  const posthog = usePostHog()
   const [isEmailLoading, setIsEmailLoading] = useState(false)
   const [isForgotPasswordModalOpen, setIsForgotPasswordModalOpen] =
     useState(false)
@@ -63,7 +65,13 @@ export function SignInForm() {
       { email, password, callbackURL: "/" },
       {
         onRequest: () => setIsEmailLoading(true),
-        onSuccess: () => {
+        onSuccess: ({ data }) => {
+          posthog.identify(data.user.id, {
+            email: data.user.email,
+            name: data.user.name,
+            image: data.user.image,
+            emailVerified: data.user.emailVerified,
+          })
           toast.success("Signed in successfully", {
             description: "Redirecting...",
           })
